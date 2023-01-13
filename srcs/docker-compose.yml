@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+      args:
+      - MARIADB_NAME=${MARIADB_NAME}
+      - MARIADB_USER=${MARIADB_USER}
+      - MARIADB_PWD=${MARIADB_PWD}
+      - MARIADB_ROOT_PWD=${MARIADB_ROOT_PWD}
+    image: mariadb
+    container_name: mariadb
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  wordpress:
+    depends_on:
+      - mariadb
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+    image: wordpress
+    container_name: wordpress
+    volumes:
+      - wordpress_data:/var/www/wordpress
+    env_file:
+      - .env
+
+  nginx:
+    depends_on:
+      - wordpress
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: nginx
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress_data:/var/www/wordpress
+
+volumes:
+
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/home/tzeck/data/wordpress-data"
+
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/home/tzeck/data/mariadb-data"
