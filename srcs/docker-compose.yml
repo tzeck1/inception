@@ -1,5 +1,8 @@
 version: '3'
 
+networks:
+  inception: {}
+
 services:
 
   mariadb:
@@ -13,6 +16,8 @@ services:
       - MARIADB_ROOT_PWD=${MARIADB_ROOT_PWD}
     image: mariadb
     container_name: mariadb
+    networks:
+      - inception
     volumes:
       - mariadb_data:/var/lib/mysql
 
@@ -24,6 +29,8 @@ services:
       dockerfile: Dockerfile
     image: wordpress
     container_name: wordpress
+    networks:
+      - inception
     volumes:
       - wordpress_data:/var/www/wordpress
     env_file:
@@ -37,6 +44,8 @@ services:
       dockerfile: Dockerfile
     image: nginx
     container_name: nginx
+    networks:
+      - inception
     ports:
       - "443:443"
     volumes:

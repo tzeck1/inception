@@ -12,8 +12,6 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
 
-# RUN ln `which php8` /usr/local/bin/php
-
 EXPOSE 9000
 
 COPY ./entry.sh /usr/local/bin/entry.sh
