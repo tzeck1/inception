@@ -11,9 +11,6 @@ reset:
 	sudo rm -rf ~/data/wordpress-data/*
 	sudo rm -rf ~/data/mariadb-data/*
 
-test:
-	@echo $(CONTS)
-
 re: clean ${NAME}
 
-.PHONY: inception clean re
+.PHONY: inception clean re reset

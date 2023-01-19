@@ -20,6 +20,7 @@ services:
       - inception
     volumes:
       - mariadb_data:/var/lib/mysql
+    restart: "on-failure"
 
   wordpress:
     depends_on:
@@ -35,6 +36,7 @@ services:
       - wordpress_data:/var/www/wordpress
     env_file:
       - .env
+    restart: "on-failure"
 
   nginx:
     depends_on:
@@ -50,6 +52,7 @@ services:
       - "443:443"
     volumes:
       - wordpress_data:/var/www/wordpress
+    restart: "on-failure"
 
 volumes:
 
